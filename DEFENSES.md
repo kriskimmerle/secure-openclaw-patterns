@@ -12,7 +12,7 @@ Practical mitigations for threats in [THREAT-MODEL.md](THREAT-MODEL.md), adapted
 
 ## Defense Pattern Index
 
-1. [Architectural Privilege Separation (Meta's Rule of Two)](#defense-pattern-1-architectural-privilege-separation)
+1. [Architectural Privilege Separation (Rule of Two)](#defense-pattern-1-architectural-privilege-separation)
 2. [Input Sanitization (Limited Effectiveness)](#defense-pattern-2-input-sanitization)
 3. [Credential Isolation & Least Privilege](#defense-pattern-3-credential-isolation--least-privilege)
 4. [Capability-Based Tool Access](#defense-pattern-4-capability-based-tool-access)

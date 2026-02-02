@@ -1,6 +1,6 @@
 # Why Proxies Alone Aren't Enough
 
-Proxy-based AI security (Palo Alto Prisma AIRS, etc.) provides valuable network-level controls — but without agent-native defenses, it creates a false sense of security. This document explains why defense-in-depth should start at the agent, not the perimeter.
+Proxy-based AI security (Palo Alto Prisma AIRS, etc.) provides valuable network-level controls. This document explains why those controls are most effective when **combined with agent-native defenses** — and what gaps remain when proxies are the only layer.
 
 ---
 
@@ -28,7 +28,7 @@ Agent ──── Proxy ──── External World
 
 ---
 
-## Where Proxies Fall Short (Without Agent-Native Defenses)
+## What Proxies Don't Cover (Without Agent-Native Defenses)
 
 ### 1. The Agent Itself Is Still Unsecured
 
@@ -69,33 +69,31 @@ Research shows that adaptive attacks consistently bypass pattern-based input fil
 
 A proxy adding another layer of LLM-based filtering doesn't solve this. It just adds another LLM that can also be confused.
 
-### 4. Single Point of Failure
+### 4. Concentration Risk
 
-All traffic goes through one component. If the proxy has a bug, a misconfiguration, or a vulnerability:
+All traffic goes through one component. This isn't a flaw — it's a trade-off inherent to proxy architecture:
 
-- All agents are exposed simultaneously
-- The proxy becomes the highest-value target
-- Downtime in the proxy means complete agent failure
+- Centralized control provides consistency
+- But also creates a single component whose availability and correctness matter for every agent
+- Defense-in-depth mitigates this by ensuring agents aren't fully dependent on the proxy layer
 
-### 5. False Confidence Without Agent-Native Controls
+### 5. The Completeness Gap
 
-The risk isn't that proxies are bad — it's that teams deploy a proxy and stop there.
+The risk isn't that proxies are insufficient — it's that teams may deploy a proxy and assume they're done.
 
-"We have Prisma AIRS, so our agents are protected."
-
-But the proxy doesn't address:
+A proxy covers the network layer effectively. But agent security has additional surfaces that require agent-native defenses:
 - Credentials stored in environment variables or workspace files
 - Instruction files with no integrity checking
 - Tools with no permission scoping
 - No security event logging at the agent level
 - No circuit breakers for anomalous behavior
 
-The proxy covers the network layer. The other 6 attack surfaces need agent-native defenses.
+Proxies and agent-native defenses address different layers. Both are needed for comprehensive coverage.
 
 ### 6. Additional Considerations
 
-- Annual licensing costs (may be justified for enterprise compliance)
-- Infrastructure dependency (proxy needs to be running)
+- Annual licensing costs (often justified for enterprise compliance and centralized management)
+- Infrastructure dependency (proxy availability matters)
 - Vendor-specific policy language (adds integration complexity)
 - Latency on every request (typically small but worth measuring)
 

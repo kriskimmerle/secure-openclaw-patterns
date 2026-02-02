@@ -389,7 +389,7 @@ Count your checkmarks:
 - **50-69%**: High risk. Do not deploy to production until critical gaps are addressed.
 - **<50%**: Critical risk. Agent is vulnerable to common attacks. Address immediately.
 
-**Recommended minimum for production**: 85% with all "Architecture" and "Credentials" items checked.
+**Recommended minimum for production**: All "Architecture" and "Credentials" items checked, plus a majority of other categories. The exact threshold depends on your risk tolerance and deployment context.
 
 ---
 
@@ -401,7 +401,7 @@ If you can't do everything, do these first:
 1. ✅ Credential isolation (vault, no code/env vars, least privilege)
 2. ✅ Tool scoping (file system, network, database restrictions)
 3. ✅ Audit logging (comprehensive, centralized)
-4. ✅ Privilege separation (Meta's Rule of Two)
+4. ✅ Privilege separation (Rule of Two — [Chromium](https://chromium.googlesource.com/chromium/src/+/main/docs/security/rule-of-2.md) 2019, [Meta AI agent adaptation](https://ai.meta.com/blog/practical-ai-agent-security/))
 
 ### Tier 2 (High)
 5. ✅ Output guardrails (credential redaction, DLP)

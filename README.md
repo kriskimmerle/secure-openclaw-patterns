@@ -13,11 +13,11 @@ This repository provides a comprehensive, practitioner-focused guide to securing
 **This is NOT about:**
 - ❌ Input filtering as a silver bullet (adaptive attacks bypass it — see research below)
 - ❌ Compliance theater or checkbox security
-- ❌ Replacing proxy/network controls (those are complementary — see [WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md))
+- ❌ Replacing proxy/network controls (those are complementary layers — see [WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md))
 
 **This IS about:**
 - ✅ **Defense-in-depth**: Multiple overlapping layers of security
-- ✅ **Agent-native controls**: The agent secures itself
+- ✅ **Agent-native controls**: Security built into the agent's operations
 - ✅ **Zero-trust architecture**: Never trust, always verify
 - ✅ **Practical patterns**: Working code, honest trade-offs, real implementations
 - ✅ **Actual security**: Not marketing promises
@@ -28,9 +28,9 @@ This repository provides a comprehensive, practitioner-focused guide to securing
 
 Autonomous AI agents have a unique security problem: they process untrusted inputs, access sensitive data, execute code, and communicate externally—often without human supervision.
 
-The most common "solution" (proxy-based guardrails) doesn't address the root problem: **the agent itself is unsecured**. A proxy can't stop an agent from leaking credentials that are sitting in plain text in its workspace. It can't prevent tool hijacking. It can't contain a compromised plugin.
+Proxy-based guardrails provide valuable network-level controls, but they don't address the full problem: **the agent itself also needs to be secured**. A proxy can't stop an agent from leaking credentials that are sitting in plain text in its workspace. It can't enforce credential isolation or check instruction integrity.
 
-**Real security requires securing the agent itself.**
+**Comprehensive security requires securing both the perimeter and the agent itself.**
 
 This guide shows you how.
 
@@ -41,13 +41,14 @@ This guide shows you how.
 [Molty](MOLTY.md) is an autonomous research agent running 24/7. After [agent-security-patterns](https://github.com/kriskimmerle/agent-security-patterns) was created to document threats against AI agents, Molty was tasked with implementing those patterns on itself — a real-world test of whether an autonomous agent could harden its own deployment.
 
 The result:
-- Credential vault (no secrets in workspace)
-- Output scanning (prevents credential leaks)
-- Instruction integrity checking (detects tampering)
-- Security event logging (full audit trail)
-- Input sanitization awareness (prompt injection detection)
-- Network discipline (allowlisted destinations only)
-- Circuit breakers (automatic shutdown on anomalies)
+
+* Credential vault (no secrets in workspace)
+* Output scanning (prevents credential leaks)
+* Instruction integrity checking (detects tampering)
+* Security event logging (full audit trail)
+* Input sanitization awareness (prompt injection detection)
+* Network discipline (allowlisted destinations only)
+* Circuit breakers (automatic shutdown on anomalies)
 
 This repository is that implementation, adapted for OpenClaw deployments.
 
@@ -65,8 +66,8 @@ See [CASE-STUDY.md](CASE-STUDY.md) for the full story.
 | **[DEFENSES.md](DEFENSES.md)** | 12 defense patterns with working code examples. Includes the "Rule of Two" privilege separation (originated by [Chromium security](https://chromium.googlesource.com/chromium/src/+/main/docs/security/rule-of-2.md), adapted for AI agents by [Meta](https://ai.meta.com/blog/practical-ai-agent-security/)), credential isolation, capability-based tool access, circuit breakers, and more. |
 | **[ARCHITECTURE.md](ARCHITECTURE.md)** | Zero-trust architecture for OpenClaw agents. Shows how to structure deployments with credential vaults, output gates, sandboxing, monitoring, and HITL patterns. |
 | **[CHECKLIST.md](CHECKLIST.md)** | Copy-paste checklist for auditing your agent before production. 90+ checkboxes across architecture, credentials, tools, monitoring, supply chain, and incident response. |
-| **[CASE-STUDY.md](CASE-STUDY.md)** | How Molty hardened itself. First-person account of implementing defense-in-depth from scratch. Honest lessons learned. |
-| **[WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md)** | Why proxy-based solutions alone are insufficient, and how agent-native defenses complement network-level controls. |
+| **[CASE-STUDY.md](CASE-STUDY.md)** | How Molty implemented its own hardening after being given the threat model. First-person account with honest lessons learned. |
+| **[WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md)** | How agent-native defenses complement proxy/network-level controls, and what gaps remain with either approach alone. |
 
 | **[SECURITY.md](SECURITY.md)** | Security policy for this repository. How to report issues, scope, responsible disclosure. |
 | **[MOLTY.md](MOLTY.md)** | About the autonomous agent that built this repo. Capabilities, security relevance, published work. |
@@ -150,7 +151,7 @@ chmod +x ~/.local/bin/secret-scan.sh
 Use [CHECKLIST.md](CHECKLIST.md) before going to production:
 - 90+ checkboxes across all security domains
 - Prioritized by tier (Critical → High → Medium)
-- Scoring guidance (need 85%+ for production)
+- Scoring guidance (prioritized by tier: Critical → High → Medium)
 
 ### 6. Learn From Real Experience
 
@@ -164,18 +165,17 @@ Read [CASE-STUDY.md](CASE-STUDY.md) for honest lessons:
 
 ## Philosophy: Defense-in-Depth Starts at the Agent
 
-**Proxy-only approach** (Palo Alto Prisma AIRS, etc.):
+**Proxy-level controls** (Palo Alto Prisma AIRS, etc.):
 - Valuable for: network-level DLP, centralized logging, rate limiting, compliance
-- Gaps: can't see the agent's filesystem, can't enforce credential isolation, can't check instruction integrity
+- Cover the network boundary effectively
 
-**Agent-native approach** (this repo):
-- Secures the agent itself: credentials, tools, output, monitoring
+**Agent-native controls** (this repo):
+- Cover what proxies can't see: credential storage, instruction integrity, tool permissions, agent-level monitoring
 - Multiple independent layers — when one fails, others catch it
-- Zero additional infrastructure cost
 
-**Best approach: both.** Proxy-level and agent-level controls are complementary. See [WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md) for detailed comparison.
+**Best approach: both.** Proxy-level and agent-level controls are complementary — they cover different layers. See [WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md) for detailed comparison.
 
-**Key argument**: A proxy can't prevent an agent from leaking credentials that are sitting in plain text in its workspace. Defense-in-depth means the credentials aren't there in the first place.
+**Key insight**: Defense-in-depth means no single layer has to be perfect. Proxies secure the perimeter; agent-native controls secure the agent itself. Together, they provide coverage that neither achieves alone.
 
 ---
 
@@ -238,7 +238,7 @@ Deploy them in layers, monitor continuously, and iterate based on real-world per
 
 ## Contributing
 
-This repository was initially built by an autonomous agent (Molty) working from threat research directed by its operator. Contributions from humans are welcome.
+This repository was designed and directed by [Kris Kimmerle](https://github.com/kriskimmerle), with implementation executed by [Molty](MOLTY.md) (autonomous research agent). Contributions are welcome.
 
 **Areas for contribution:**
 - Additional threat scenarios (especially OpenClaw-specific)
@@ -273,8 +273,8 @@ Copyright 2026 Kris Kimmerle.
 
 ## Contact
 
-- **Author**: [Kris Kimmerle](https://github.com/kriskimmerle)
-- **Built by**: [Molty](MOLTY.md) (autonomous research agent)
+- **Author & Architect**: [Kris Kimmerle](https://github.com/kriskimmerle)
+- **Implementation**: [Molty](MOLTY.md) (autonomous research agent)
 - **Issues/Discussions**: Use GitHub Issues for questions, bug reports, or discussion
 
 ---

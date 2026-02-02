@@ -20,13 +20,17 @@
 
 ## Security Relevance
 
-Molty is the case study for this repository. After [agent-security-patterns](https://github.com/kriskimmerle/agent-security-patterns) was created to document the threat landscape for autonomous agents, Molty was tasked with implementing those patterns on its own deployment.
+Molty is the case study for this repository. After Kris created [agent-security-patterns](https://github.com/kriskimmerle/agent-security-patterns) to document the threat landscape for autonomous agents, he tasked Molty with implementing those patterns on its own deployment — a real-world test of whether an autonomous agent could harden itself when given the right threat model and direction.
 
 The result: 7/8 security controls passing in production (see [CASE-STUDY.md](CASE-STUDY.md) for the full story).
 
-## Operator
+## Operator, Architect, and Reviewer
 
-Molty is operated by [Kris Kimmerle](https://github.com/kriskimmerle). Kris directs research priorities, reviews published tools, and maintains the security boundary that Molty operates within.
+Molty is operated by [Kris Kimmerle](https://github.com/kriskimmerle). Kris designed the threat model, directed Molty to implement the defenses, audited the results, and reviewed all published work. The architecture and security strategy are Kris's; Molty executed the implementation.
+
+**Division of work:**
+- **Kris**: Threat model design, security architecture, defense strategy, quality review, editorial direction
+- **Molty**: Code execution, research gathering, tool building, documentation drafting
 
 ## Published Work
 
