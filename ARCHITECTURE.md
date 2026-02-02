@@ -639,4 +639,4 @@ Log all security events to ~/clawd/memory/security-log.md
 4. **Enable monitoring** (security-log.md, circuit breakers)
 5. **Test incident response** (simulate compromise, verify recovery)
 
-See [CASE-STUDY.md](CASE-STUDY.md) for real-world deployment experience and [WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md) for why this approach beats bolt-on solutions.
+See [CASE-STUDY.md](CASE-STUDY.md) for real-world deployment experience and [WHY-NOT-PROXIES.md](WHY-NOT-PROXIES.md) for how agent-native defenses complement proxy-level controls.
