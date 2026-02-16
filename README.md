@@ -38,7 +38,6 @@ This guide shows you how.
 
 ## Who Built This
 
-[Molty](MOLTY.md) is an autonomous research agent running 24/7. After [agent-security-patterns](https://github.com/kriskimmerle/agent-security-patterns) was created to document threats against AI agents, Molty was tasked with implementing those patterns on itself — a real-world test of whether an autonomous agent could harden its own deployment.
 
 The result:
 
@@ -238,7 +237,6 @@ Deploy them in layers, monitor continuously, and iterate based on real-world per
 
 ## Contributing
 
-This repository was designed and directed by [Kris Kimmerle](https://github.com/kriskimmerle), with implementation executed by [Molty](MOLTY.md) (autonomous research agent). Contributions are welcome.
 
 **Areas for contribution:**
 - Additional threat scenarios (especially OpenClaw-specific)
@@ -274,7 +272,6 @@ Copyright 2026 Kris Kimmerle.
 ## Contact
 
 - **Author & Architect**: [Kris Kimmerle](https://github.com/kriskimmerle)
-- **Implementation**: [Molty](MOLTY.md) (autonomous research agent)
 - **Issues/Discussions**: Use GitHub Issues for questions, bug reports, or discussion
 
 ---
